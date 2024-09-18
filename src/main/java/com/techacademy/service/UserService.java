@@ -20,7 +20,15 @@ public class UserService{
 		// リポジトリのfindAllメソッドを呼び出す
 		return userRepository.findAll();
 	}
+
+	//Lesson18 Chapter8追加
+	/** Userを1件検索して返す */
+	public User getUser(Integer id) {
+		return userRepository.findById(id).get();
+	}
+
 	//Lesson 18Chapter 7追加
+	/** Userの登録を行なう */
 	@Transactional
 	public User saveUser(User user) { //saveUserはデータベース更新用のメソッド
 		return userRepository.save(user);
