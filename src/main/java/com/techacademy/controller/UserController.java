@@ -37,7 +37,7 @@ public class UserController{
 	//Lesson 18Chapter 7追加
 	/** User登録画面を表示 */
 	@GetMapping("/register")
-	public String getRegister(@ModelAttribute User user) {
+	public String getRegister(@ModelAttribute User user) { //@ModelAttributeとmodel
 		return "user/register";
 	}
 	/** User登録処理 */
@@ -56,16 +56,38 @@ public class UserController{
 
 	//Lesson18 Chapter8追加
 	/** User更新画面を表示 */
+//	@GetMapping("/update/{id}/")
+//	public String getUser(@PathVariable("id") Integer id, Model model) {
+//		// Modelに登録
+//		model.addAttribute("user", service.getUser(id));
+//		return "user/update";
+//	}
+	//課題
 	@GetMapping("/update/{id}/")
-	public String getUser(@PathVariable("id") Integer id, Model model) {
-		// Modelに登録
-		model.addAttribute("user", service.getUser(id));
+	public String getUser(User user,@PathVariable("id") Integer id, Model model) { //
+		if(id == null) {
+			//異常系・エラー
+			model.addAttribute("user", user);
+		}else {
+			// Modelに登録
+			model.addAttribute("user", service.getUser(id)); //サービスでDBに探している
+		}
 		return "user/update";
 	}
 
 	/** User更新処理 */
+//	public String postUser(User user) {
+//		service.saveUser(user);
+//		return "redirect:/user/list";
+//	}
+	//課題
 	@PostMapping("/update/{id}/")
-	public String postUser(User user) {
+	public String postUser(@Validated User user, BindingResult res, Model model) {
+		if(res.hasErrors()) {
+			//異常が起こった場合に辿り着く
+//			model.addAttribute("id", null);
+			return getUser(user, null, model) ; //過去にやってる
+		}
 		service.saveUser(user);
 		return "redirect:/user/list";
 	}

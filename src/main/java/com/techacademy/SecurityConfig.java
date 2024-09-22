@@ -20,11 +20,11 @@ public class SecurityConfig{
 			.failureUrl("/login?error") // ログイン失敗時のリダイレクト先
 			.permitAll() // ログイン画面は未ログインでアクセス可
 		).logout(logout -> logout
-			.logoutSuccessUrl("/login")// ログアウト後のリダイレクト先
+			.logoutSuccessUrl("/login") // ログアウト後のリダイレクト先
 		).authorizeHttpRequests(auth -> auth
-			.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-				.permitAll() // css等は未ログインでアクセス可
-			.anyRequest().authenticated() // その他はログイン必要
+				.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+					.permitAll()    // css等は未ログインでアクセス可
+				.anyRequest().authenticated() // その他はログイン必要
 		);
 		return http.build();
 	}
